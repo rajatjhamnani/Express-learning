@@ -1,11 +1,17 @@
 //const http=require('node:http')
 const express= require('express')
+const bodyParser=require('body-parser')
 const app=express()
-app.use((req , res , next)=>{
+app.use(bodyParser.urlencoded({extended:false}))
+app.use('/add-product',(req , res , next)=>{
   console.log('i am middleware')
-  next()
+  res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">ADD PRODUCT</button></form>')
 })
-app.use((req , res , next)=>{
+app.post('/product', (req , res , next)=>{
+  console.log(req.body)
+  res.redirect('/')
+})
+app.use('/',(req , res , next)=>{
   console.log('i am another middleware')
   res.send('<h1>Hello From Express js</h1>')
 })
